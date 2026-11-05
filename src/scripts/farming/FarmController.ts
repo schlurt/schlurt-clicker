@@ -8,7 +8,7 @@ class FarmController {
     public static farmingModalTabSelected: KnockoutObservable<string> = ko.observable('berryFarmView');
 
     public static berryListEnd: KnockoutComputed<number>;
-    public static berryListSearch: KnockoutObservable<string> = ko.observable('');
+    public static berryListSearch: KnockoutComputed<string> = Settings.getSetting('farmBerrySearchFilter').observableValue;
 
     public static selectedBerry: KnockoutObservable<BerryType> = ko.observable(BerryType.Cheri);
     public static selectedMulch: KnockoutObservable<MulchType> = ko.observable(MulchType.Boost_Mulch);
@@ -240,7 +240,7 @@ class FarmController {
 
     public static getBackgroundColor(index: number) {
         if (App.game.farming.unlockedBerries[index]()) {
-            return GameConstants.BerryColor[App.game.farming.berryData[index].color];
+            return GameConstants.BerryColor[BerryList[index].color];
         } else if (FarmController.getHint(index, true) !== '') {
             return GameConstants.BerryColor[8];
         } else {

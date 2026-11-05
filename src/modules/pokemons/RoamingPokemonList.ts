@@ -1,7 +1,7 @@
 import { Observable } from 'knockout';
 import BadgeEnums from '../enums/Badges';
 import {
-    KantoSubRegions, JohtoSubRegions, HoennSubRegions, SinnohSubRegions, UnovaSubRegions, KalosSubRegions, AlolaSubRegions, GalarSubRegions, HisuiSubRegions, PaldeaSubRegions, Region,
+    KantoSubRegions, JohtoSubRegions, HoennSubRegions, SinnohSubRegions, UnovaSubRegions, KalosSubRegions, AlolaSubRegions, GalarSubRegions, HisuiSubRegions, PaldeaSubRegions, SubRegions, Region,
     getDungeonIndex, Starter,
 } from '../GameConstants';
 import GameHelper from '../GameHelper';
@@ -75,6 +75,10 @@ export default class RoamingPokemonList {
         return RoamingPokemonList.increasedChanceRoute[region]?.[subRegionGroup];
     }
 
+    public static getGroupSubRegions(region: Region, subRegionGroup: number): SubRegions[] {
+        return [...RoamingPokemonList.roamerGroups[region][subRegionGroup].subRegions];
+    }
+
     public static generateIncreasedChanceRoutes(date = new Date()) {
         // Seed the random runmber generator
         SeededRand.seedWithDateHour(date, this.period);
@@ -89,7 +93,7 @@ export default class RoamingPokemonList {
         });
     }
 
-    public static findGroup(region: Region, subRegion: number) {
+    public static findGroup(region: Region, subRegion: number): number {
         return this.roamerGroups[region].findIndex((g) => g.subRegions.includes(subRegion));
     }
 }
@@ -185,6 +189,8 @@ RoamingPokemonList.add(Region.kanto, 0, new RoamingPokemon('Bulbasaur (Clone)', 
 RoamingPokemonList.add(Region.kanto, 0, new RoamingPokemon('Charmander (Clone)', new MultiRequirement([new SpecialEventRequirement('Mewtwo strikes back!'), new ClearDungeonRequirement(1, getDungeonIndex('New Island'))])));
 RoamingPokemonList.add(Region.kanto, 0, new RoamingPokemon('Squirtle (Clone)', new MultiRequirement([new SpecialEventRequirement('Mewtwo strikes back!'), new ClearDungeonRequirement(1, getDungeonIndex('New Island'))])));
 RoamingPokemonList.add(Region.kanto, 0, new RoamingPokemon('Pikachu (Clone)', new MultiRequirement([new SpecialEventRequirement('Mewtwo strikes back!'), new ObtainedPokemonRequirement('Pikachu (Clone)')])));
+// Pirate (Aug 29 - Sep 19)
+RoamingPokemonList.add(Region.kanto, 0, new RoamingPokemon('Captain Charizard',  new SpecialEventRequirement('A Pirate\'s Life')));
 // Halloween (Oct 30 - Nov 5)
 // Let's Go Pikachu Eevee (Nov 16 - Nov 23)
 RoamingPokemonList.add(Region.kanto, 0, new RoamingPokemon('Let\'s Go Pikachu', new SpecialEventRequirement('Let\'s GO!')));
